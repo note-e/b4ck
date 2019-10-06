@@ -1,8 +1,5 @@
-<p align="center">
-    <h1> Note-E 📝 </h1>
-    <p> The backend repository! </p>
-</p>
-
+<h1 align="center"> Note-E 📝 </h1>
+<p align="center"> The backend repository! </p>
 <p align="center">
 
   <a href="https://github.com/note-e/b4ck/issues">
