@@ -2,7 +2,10 @@ import clrs from 'colors';
 
 const requiredEnv = [
   'PORT',
+  'EMAIL',
+  'EMAIL_PASSWORD',
   'MONGODB_URL',
+  'JWT_SECRET_KEY',
 ];
 
 export async function check() {
