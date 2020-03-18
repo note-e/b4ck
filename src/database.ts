@@ -1,7 +1,7 @@
 import clrs from 'colors';
 import mongoose from 'mongoose';
 
-export async function connect() {
+export async function connect(): Promise<void> {
   const mongoURL: string | undefined = process.env.MONGODB_URL;
   if (!mongoURL) {
     const errMsg = clrs.red(
@@ -11,7 +11,7 @@ export async function connect() {
   }
 
   try {
-    const connection = await mongoose.connect(mongoURL, {
+    await mongoose.connect(mongoURL, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
@@ -21,7 +21,6 @@ export async function connect() {
     console.info(
       clrs.green(`🤟 Successfully connected to ${clrs.yellow(mongoURL)}`),
     );
-    return connection;
   } catch (err) {
     console.error(clrs.red(`🤔 Failed to connect to ${clrs.yellow(mongoURL)}`));
     throw err;

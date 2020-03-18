@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 
 import joi from '@hapi/joi';
 
-import {sendEmail} from '../services/nodemailer';
-import {generateRandomNumber} from '../utils';
+import { sendEmail } from '../services/nodemailer';
+import { generateRandomNumber } from '../utils';
 
 export const PRIVATE_USER_ATTRIBUTES = [
   'password',
@@ -25,8 +25,8 @@ export function getUserProjectAttributes(
   base?: IProjection,
 ): IProjection {
   return PRIVATE_USER_ATTRIBUTES.reduce((obj, item) => {
-    if (prefixes) for (const prefix of prefixes) obj[`${prefix}.${item}`] = 0;
-    else obj[item] = 0;
+    if (prefixes) { for (const prefix of prefixes) { obj[`${prefix}.${item}`] = 0; } }
+    else { obj[item] = 0; }
     return obj;
   }, base || {});
 }
@@ -43,7 +43,7 @@ export interface IUser {
   generateAuthToken: () => string;
 }
 
-export interface IUserModel extends IUser, mongoose.Document {}
+export interface IUserModel extends IUser, mongoose.Document { }
 
 export const userSchema = new mongoose.Schema(
   {
@@ -78,15 +78,15 @@ export const userSchema = new mongoose.Schema(
       default: false,
     },
   },
-  {timestamps: true},
+  { timestamps: true },
 );
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function (): {} {
   const doc = this.toObject();
   return _.omit(doc, PRIVATE_USER_ATTRIBUTES);
 };
 
-userSchema.methods.sendVerificationEmail = async function() {
+userSchema.methods.sendVerificationEmail = function (): void {
   this.verificationCode = generateRandomNumber(6);
   sendEmail({
     to: this.email,
@@ -95,7 +95,7 @@ userSchema.methods.sendVerificationEmail = async function() {
   });
 };
 
-userSchema.methods.generateAuthToken = function() {
+userSchema.methods.generateAuthToken = function (): string {
   return jwt.sign(
     {
       userID: this._id,
@@ -106,7 +106,7 @@ userSchema.methods.generateAuthToken = function() {
 
 export const User = mongoose.model<IUserModel>('User', userSchema);
 
-export function validateUser(user: any) {
+export function validateUser(user: any): joi.ValidationResult<any> {
   const schema = joi.object({
     name: joi
       .string()

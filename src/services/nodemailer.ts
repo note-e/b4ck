@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export async function sendEmail(mailOptions: nodemailer.SendMailOptions) {
+export function sendEmail(mailOptions: nodemailer.SendMailOptions): void {
   const auth = {
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASSWORD,
@@ -15,9 +15,8 @@ export async function sendEmail(mailOptions: nodemailer.SendMailOptions) {
 
   transporter
     .sendMail(mailOptions)
-    .then(() => console.log(`An email was sent to ${mailOptions.to}`))
+    .then(() => console.log('An email was sent to', mailOptions.to))
     .catch(err =>
-      console.error(`Failed sending email to ${mailOptions.to}
-      ${err}`),
+      console.error('Failed sending email to', mailOptions.to, err),
     );
 }

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-import {User} from '../models/user.model';
-import {IDecodedToken} from './authentication';
+import { User, IUserModel } from '../models/user.model';
+import { IDecodedToken } from './authentication';
 
 export class AuthenticatedUser {
   public readonly userID: string;
@@ -10,16 +10,16 @@ export class AuthenticatedUser {
     this.userID = decodedToken.userID;
   }
 
-  public async getUserFromDB() {
+  public async getUserFromDB(): Promise<IUserModel | null> {
     return await User.findById(this.userID);
   }
 
-  public async isVerified() {
+  public async isVerified(): Promise<boolean> {
     const user = await User.findById(this.userID).select('isVerified');
-    return user && user.isVerified === true;
+    return !!user && user.isVerified === true;
   }
 
-  public toObjectID(str: string) {
+  public toObjectID(str: string): mongoose.Types.ObjectId {
     return mongoose.Types.ObjectId.createFromHexString(str);
   }
 }

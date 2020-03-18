@@ -1,19 +1,18 @@
-import _ from 'lodash';
 import mongoose from 'mongoose';
 
 import joi from '@hapi/joi';
 
-// import {enumToArray} from '../utils';
+import { enumToArray } from '../utils';
 
 export interface INote {
   title: string;
   description: string;
-  user: object;
-  // status: string;
-  // deadline: Date;
+  user: object | string;
+  status: string;
+  deadline: Date;
 }
 
-export interface INoteModel extends INote, mongoose.Document {}
+export interface INoteModel extends INote, mongoose.Document { }
 
 export enum NoteStatus {
   TODO,
@@ -35,28 +34,28 @@ export const noteSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    // status: {
-    //   type: String,
-    //   enum: enumToArray(NoteStatus),
-    //   default: NoteStatus[NoteStatus.TODO],
-    // },
-    // deadline: {
-    //   type: Date,
-    // },
+    status: {
+      type: String,
+      enum: enumToArray(NoteStatus),
+      default: NoteStatus[NoteStatus.TODO],
+    },
+    deadline: {
+      type: Date,
+    },
   },
-  {timestamps: true},
+  { timestamps: true },
 );
 
 export const Note = mongoose.model<INoteModel>('Note', noteSchema);
 export const canEdit = ['title', 'description'];
 
-export function validateNote(note: any) {
+export function validateNote(note: {}): joi.ValidationResult<any> {
   const schema = joi.object({
     title: joi.string().required(),
     description: joi.string().required(),
     user: joi.any().required(),
-    // status: joi.string().allow(enumToArray(NoteStatus)),
-    // deadline: joi.date(),
+    status: joi.string().allow(...enumToArray(NoteStatus)),
+    deadline: joi.date(),
   });
   return schema.validate(note);
 }
