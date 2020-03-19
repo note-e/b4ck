@@ -49,7 +49,7 @@ export const noteSchema = new mongoose.Schema(
 export const Note = mongoose.model<INoteModel>('Note', noteSchema);
 export const canEdit = ['title', 'description'];
 
-export function validateNote(note: {}): joi.ValidationResult<any> {
+export function validateNote(note: {}): joi.ValidationResult {
   const schema = joi.object({
     title: joi.string().required(),
     description: joi.string().required(),

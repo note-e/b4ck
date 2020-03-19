@@ -106,7 +106,7 @@ userSchema.methods.generateAuthToken = function (): string {
 
 export const User = mongoose.model<IUserModel>('User', userSchema);
 
-export function validateUser(user: any): joi.ValidationResult<any> {
+export function validateUser(user: any): joi.ValidationResult {
   const schema = joi.object({
     name: joi
       .string()
