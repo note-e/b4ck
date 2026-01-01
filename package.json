@@ -17,7 +17,7 @@
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^5.0.0",
+    "express": "^5.2.1",
     "express-bearer-token": "^2.4.0",
     "formidable": "^1.2.2",
     "helmet": "^3.21.3",
